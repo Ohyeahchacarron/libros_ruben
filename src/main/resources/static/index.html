@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Página de Inicio de Sesión</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .login-container {
+            background-color: white;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+        }
+        input {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        button {
+            width: 100%;
+            padding: 10px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        .error {
+            color: red;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="login-container">
+        <h2>Iniciar Sesión</h2>
+        <form id="loginForm">
+            <input type="text" id="usuario" placeholder="Usuario" required>
+            <input type="password" id="contrasenia" placeholder="Contraseña" required>
+            <button type="submit">Ingresar</button>
+            <p class="error" id="errorMsg" style="display: none;">Usuario o contraseña incorrectos</p>
+        </form>
+    </div>
+
+    <script>
+        document.getElementById('loginForm').addEventListener('submit', function(event) {
+            event.preventDefault(); // Evitar que el formulario se envíe automáticamente
+
+            // Obtener valores de los campos de usuario y contraseña
+            const usuario = document.getElementById('usuario').value;
+            const contrasenia = document.getElementById('contrasenia').value;
+
+            // Crear objeto JSON para enviar al backend
+            const loginData = {
+                usuario: usuario,
+                contrasenia: contrasenia
+            };
+
+            // Hacer la solicitud fetch al backend
+            fetch('http://localhost:8080/api/usuarios/login', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(loginData)
+            })
+            .then(response => {
+                if (response.status === 200) {
+                    return response.json(); // Si la respuesta es exitosa
+                } else {
+                    throw new Error('Usuario o contraseña incorrectos');
+                }
+            })
+            .then(data => {
+                // Si el login es exitoso, redirigir a la página del menú
+                window.location.href = "Libros.html";
+            })
+            .catch(error => {
+                // Mostrar mensaje de error si hay un problema con el login
+                document.getElementById('errorMsg').style.display = 'block';
+            });
+        });
+    </script>
+
+</body>
+</html>
