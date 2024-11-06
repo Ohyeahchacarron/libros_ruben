@@ -28,7 +28,6 @@ public class Libro {
     @Column(nullable = false)
     private char estatus;
 
-    // Campo para almacenar el archivo PDF como BLOB
     @Lob
     @Column(name = "archivo_pdf")
     private byte[] archivoPdf;

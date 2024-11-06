@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Gestión de Usuarios</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="Usuario.js"></script>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-info">
+        <img src="images/U.T.L-Photoroom.png" alt="Logo de la Universidad" class="navbar-brand mr-3" style="height: 100px;"> 
+        <h1 class="text-warning" style="font-size: 1.5rem; margin: 0;">Universidad Tecnológica de Londres</h1>
+    </nav>
+    
+    <div class="container">
+        <h1>Gestión de Usuarios</h1>
+        <form id="usuarioForm">
+            <div class="form-group">
+                <label for="usuario">Usuario:</label>
+                <input type="text" class="form-control" id="usuario" required>
+            </div>
+            <div class="form-group">
+                <label for="nombre">Nombre:</label>
+                <input type="text" class="form-control" id="nombre" required>
+            </div>
+            <div class="form-group">
+                <label for="apellidos">Apellidos:</label>
+                <input type="text" class="form-control" id="apellidos" required>
+            </div>
+            <div class="form-group">
+                <label for="perfil">Perfil:</label>
+                <select id="perfil" required>
+                    <option value="Administrador">Administrador</option>
+                    <option value="Bibliotecario">Bibliotecario</option>
+                    <option value="Alumno">Alumno</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="contrasenia">Contraseña:</label>
+                <input type="password" class="form-control" id="contrasenia" required>
+            </div>
+            <button type="submit" class="btn btn-primary">Agregar Usuario</button>
+            <button type="button" id="btnModificar" class="btn btn-warning" onclick="modificarUsuario()" disabled>Modificar Usuario</button>
+            <button type="button" id="btnEliminar" class="btn btn-danger" onclick="eliminarUsuario()" disabled>Eliminar Usuario</button>
+        </form>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Usuario</th>
+                    <th>Nombre</th>
+                    <th>Apellidos</th>
+                    <th>Perfil</th>
+                    <th>Contraseña</th>
+                </tr>
+            </thead>
+            <tbody id="usuariosTableBody">
+                <!-- Los usuarios se cargarán aquí -->
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>

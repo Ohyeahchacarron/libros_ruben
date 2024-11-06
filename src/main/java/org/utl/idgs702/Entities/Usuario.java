@@ -22,11 +22,11 @@ public class Usuario {
     @Column
     private String nombre;
     
-    @Column(name= "apellido_p", nullable = false)
-    private String apellidoP;
+    @Column(name= "apellidos", nullable = false)
+    private String apellidos;
     
-    @Column(name= "apellido_m")
-    private String apellidoM;
+    @Column(name= "perfil")
+    private String perfil;
     
     @Column(nullable = false)
     private String contrasenia;
@@ -35,14 +35,14 @@ public class Usuario {
 		super();
 	}
 
-	public Usuario(int idUsuario, String usuario, String nombre, String apellidoP, String apellidoM,
+	public Usuario(int idUsuario, String usuario, String nombre, String apellidos, String perfil,
 			String contrasenia) {
 		super();
 		this.idUsuario = idUsuario;
 		this.usuario = usuario;
 		this.nombre = nombre;
-		this.apellidoP = apellidoP;
-		this.apellidoM = apellidoM;
+		this.apellidos = apellidos;
+		this.perfil = perfil;
 		this.contrasenia = contrasenia;
 	}
 
@@ -70,20 +70,20 @@ public class Usuario {
 		this.nombre = nombre;
 	}
 
-	public String getApellidoP() {
-		return apellidoP;
+	public String getApellidos() {
+		return apellidos;
 	}
 
-	public void setApellidoP(String apellidoP) {
-		this.apellidoP = apellidoP;
+	public void setApellidos(String apellidos) {
+		this.apellidos = apellidos;
 	}
 
-	public String getApellidoM() {
-		return apellidoM;
+	public String getPerfil() {
+		return perfil;
 	}
 
-	public void setApellidoM(String apellidoM) {
-		this.apellidoM = apellidoM;
+	public void setPerfil(String perfil) {
+		this.perfil = perfil;
 	}
 
 	public String getContrasenia() {
@@ -96,8 +96,8 @@ public class Usuario {
 
 	@Override
 	public String toString() {
-		return "Usuarios [idUsuario=" + idUsuario + ", usuario=" + usuario + ", nombre=" + nombre + ", apellidoP="
-				+ apellidoP + ", apellidoM=" + apellidoM + ", contrasenia=" + contrasenia + "]";
+		return "Usuario [idUsuario=" + idUsuario + ", usuario=" + usuario + ", nombre=" + nombre + ", apellidos="
+				+ apellidos + ", perfil=" + perfil + ", contrasenia=" + contrasenia + "]";
 	}
 
 	

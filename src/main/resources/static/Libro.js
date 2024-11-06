@@ -1,4 +1,4 @@
-$(document).ready(function() {
+$(document).ready(function() { 
     // Cargar todos los libros al cargar la página
     cargarLibros();
 
@@ -32,11 +32,20 @@ $(document).ready(function() {
                 alert('Libro agregado con éxito');
                 cargarLibros(); // Recargar la lista de libros
                 $('#formLibro')[0].reset(); // Limpiar el formulario
+                $('#btnEliminar').hide(); // Ocultar el botón de eliminar
             },
             error: function() {
                 alert('Error al agregar el libro');
             }
         });
+    });
+
+    // Configurar el botón de eliminar
+    $('#btnEliminar').on('click', function() {
+        const idLibro = $('#idLibro').val();
+        if (idLibro && confirm('¿Estás seguro de que deseas eliminar este libro?')) {
+            eliminarLibro(idLibro);
+        }
     });
 });
 
@@ -47,7 +56,6 @@ function cargarLibros() {
         method: "GET",
         dataType: "json",
         success: function(response) {
-            console.log(response);
             if (Array.isArray(response)) {
                 $('#tablaLibros tbody').empty();
                 
@@ -61,7 +69,6 @@ function cargarLibros() {
                             <td>${libro.estatus}</td>
                             <td>
                                 <button class="btn btn-info" onclick="abrirPdf(${libro.idLibro})">Ver PDF</button>
-                                <button class="btn btn-danger" onclick="eliminarLibro(${libro.idLibro})">Eliminar</button>
                             </td>
                         </tr>
                     `;
@@ -72,15 +79,9 @@ function cargarLibros() {
             }
         },
         error: function(xhr, status, error) {
-            console.error("Error en la solicitud:", error);
             alert("Error al cargar los libros. Intenta de nuevo.");
         }
     });
-}
-
-// Función para abrir el PDF del libro
-function abrirPdf(idLibro) {
-    window.open(`/api/libros/pdf/${idLibro}`, '_blank');
 }
 
 // Función para seleccionar un libro al hacer clic en una fila
@@ -90,65 +91,36 @@ function seleccionarLibro(idLibro, nombreLibro, autor, genero, estatus) {
     $('#autor').val(autor);
     $('#genero').val(genero);
     $('#estatus').val(estatus);
+    $('#btnEliminar').show(); // Mostrar el botón de eliminar
 }
 
 // Función para eliminar un libro
 function eliminarLibro(idLibro) {
-    if (confirm('¿Estás seguro de que deseas eliminar este libro?')) {
-        $.ajax({
-            url: `/api/libros/eliminar/${idLibro}`,
-            type: 'DELETE',
-            success: function(response) {
-                alert('Libro eliminado con éxito');
-                cargarLibros(); 
-            },
-            error: function() {
-                alert('Error al eliminar el libro');
-            }
-        });
-    }
-}
-
-$('#btnActualizar').on('click', function(event) {
-    event.preventDefault(); // Prevenir el comportamiento predeterminado del botón
-
-    const idLibro = $('#idLibro').val(); // Obtener el ID del libro
-    if (!idLibro) {
-        alert('Por favor, selecciona un libro para actualizar.');
-        return;
-    }
-
-    const libro = {
-        nombreLibro: $('#nombreLibro').val(),
-        autor: $('#autor').val(),
-        genero: $('#genero').val(),
-        estatus: $('#estatus').val() === '1' ? '1' : '0'
-    };
-
-    const formData = new FormData();
-    formData.append('libro', new Blob([JSON.stringify(libro)], { type: 'application/json' }));
-
-    const archivoInput = $('#archivo')[0];
-    if (archivoInput.files.length > 0) {
-        formData.append('archivo', archivoInput.files[0]);
-    }
-
-    // Hacer la solicitud para actualizar el libro
     $.ajax({
-        url: `/api/libros/actualizar/${idLibro}`,
-        type: 'PUT',
-        data: formData,
-        contentType: false,
-        processData: false,
+        url: `/api/libros/eliminar/${idLibro}`,
+        type: 'DELETE',
         success: function(response) {
-            alert('Libro actualizado con éxito');
-            cargarLibros(); // Recargar la lista de libros
+            alert('Libro eliminado con éxito');
+            cargarLibros(); 
             $('#formLibro')[0].reset(); // Limpiar el formulario
-            $('#idLibro').val(''); // Limpiar el campo oculto después de la actualización
+            $('#idLibro').val(''); // Limpiar el campo oculto
+            $('#btnEliminar').hide(); // Ocultar el botón de eliminar
         },
         error: function() {
-            alert('Error al actualizar el libro');
+            alert('Error al eliminar el libro');
         }
     });
-});
+}
 
+// Función para abrir el PDF del libro en el modal
+function abrirPdf(idLibro) {
+    const pdfUrl = `/api/libros/pdf/${idLibro}`;
+    $('#iframePdf').attr('src', pdfUrl);
+    $('#modalPdf').show(); // Mostrar el modal
+}
+
+// Función para cerrar el modal
+function cerrarModalPdf() {
+    $('#modalPdf').hide();
+    $('#iframePdf').attr('src', ''); 
+}

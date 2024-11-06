@@ -1,4 +1,4 @@
-package org.utl.idgs702.DAOLibros;
+package org.utl.idgs702.DAO;
 
 import java.util.List;
 import java.util.Optional;

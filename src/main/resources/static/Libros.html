@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!DOCTYPE html> 
 <html lang="es">
 <head>
     <meta charset="UTF-8">
@@ -6,16 +6,21 @@
     <title>Gestión de Libros</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+   
     <script src="Libro.js" defer></script>
 </head>
 <body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-info">
+        <img src="images/U.T.L-Photoroom.png" alt="Logo de la Universidad" class="navbar-brand mr-3" style="height: 70px;"> 
+        <h1 class="text-warning" style="font-size: 1.5rem; margin: 0;">Universidad Tecnológica de Londres</h1>
+    </nav>
+    
     <div class="container mt-5">
         <h1 class="mb-4">Registro de Libros</h1>
 
         <!-- Formulario para ingresar un libro -->
         <form id="formLibro" enctype="multipart/form-data">
             <input type="hidden" id="idLibro" name="idLibro">
-
             <div class="form-group">
                 <label for="nombreLibro">Nombre del Libro:</label>
                 <input type="text" class="form-control" id="nombreLibro" required>
@@ -41,7 +46,7 @@
             </div>
             <button type="submit" class="btn btn-primary">Agregar Libro</button>
             <button type="button" id="btnActualizar" class="btn btn-warning">Actualizar Libro</button>
-            
+            <button type="button" id="btnEliminar" class="btn btn-danger" style="display: none;">Eliminar Libro</button>
         </form>
 
         <h2 class="mt-5">Lista de Libros</h2>
@@ -60,7 +65,23 @@
                 <!-- Las filas se agregarán aquí dinámicamente -->
             </tbody>
         </table>
-        
+    </div>
+
+    <!-- Modal para visualizar PDF -->
+    <div id="modalPdf" class="modal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Visualizar PDF</h5>
+                    <button type="button" class="close" onclick="cerrarModalPdf()" aria-label="Cerrar">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <iframe id="iframePdf" width="100%" height="500px"></iframe>
+                </div>
+            </div>
+        </div>
     </div>
 </body>
 </html>

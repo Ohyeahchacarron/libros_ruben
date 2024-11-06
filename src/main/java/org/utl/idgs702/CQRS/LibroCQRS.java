@@ -1,6 +1,6 @@
 package org.utl.idgs702.CQRS;
 
-import org.utl.idgs702.DAOLibros.LibroDAO;
+import org.utl.idgs702.DAO.LibroDAO;
 import org.utl.idgs702.Entities.Libro;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -8,7 +8,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 
 @Service
-public class LibrosCQRS {
+public class LibroCQRS {
 
     @Autowired
     private LibroDAO libroDAO;

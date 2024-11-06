@@ -1,4 +1,4 @@
-package org.utl.idgs702.DAOLibros;
+package org.utl.idgs702.DAO;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -20,7 +20,7 @@ public class LibroDAO {
     @Autowired
     private LibroRepository libroRepository;
 
- // Crear un nuevo libro con el archivo PDF como BLOB
+    // Crear un nuevo libro con el archivo PDF como BLOB
     public Libro crearLibro(String nombreLibro, String autor, String genero, char estatus, MultipartFile archivo) throws IOException {
         Libro libro = new Libro();
         libro.setNombreLibro(nombreLibro);
@@ -38,7 +38,6 @@ public class LibroDAO {
         // Guardamos el libro en la base de datos
         return libroRepository.save(libro);
     }
-
 
     // Obtener un libro por su ID
     public Libro obtenerLibroPorId(int idLibro) {
@@ -73,19 +72,24 @@ public class LibroDAO {
         return libroRepository.findAll();
     }
 
-    // Método para mostrar el PDF basado en el id del libro
+    // Obtener el archivo PDF de un libro por su ID
     public ResponseEntity<byte[]> obtenerPdfPorId(int idLibro) {
         Libro libro = obtenerLibroPorId(idLibro);
-
-        // Verificamos si el libro tiene un archivo PDF almacenado
-        if (libro.getArchivoPdf() == null) {
+    
+        if (libro == null || libro.getArchivoPdf() == null) {
             throw new EntityNotFoundException("Archivo PDF no encontrado para este libro.");
         }
-
-        // Retornar el archivo PDF como respuesta
+    
+        byte[] pdfBytes = libro.getArchivoPdf(); // Usa los bytes directamente
+    
         return ResponseEntity.ok()
-                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=libro_" + libro.getIdLibro() + ".pdf")
+                .header(HttpHeaders.CONTENT_DISPOSITION, "inline; filename=libro_" + libro.getIdLibro() + ".pdf")
                 .contentType(MediaType.APPLICATION_PDF)
-                .body(libro.getArchivoPdf());
+                .body(pdfBytes);
+    }
+    
+
+    public List<Libro> buscarLibrosPorNombre(String nombre) {
+        return libroRepository.findByNombreContaining(nombre);
     }
 }
